@@ -3,12 +3,20 @@ package com.KoreaIT.example.JAM.test;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
-public class JDBCInsertTest {
+import com.KoreaIT.example.JAM.Article;
+
+public class JDBCSelectTest {
 	public static void main(String[] args) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		List<Article> articles = new ArrayList<>();
 
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -17,28 +25,34 @@ public class JDBCInsertTest {
 			conn = DriverManager.getConnection(url, "root", "");
 			System.out.println("연결 성공!");
 
-			String sql = "INSERT INTO article";
-			sql += " SET regDate = NOW(),"; // 앞에 띄어쓰기 꼭 있어야 함
-			sql += "updateDate = NOW(),";
-			sql += "title = CONCAT('제목 ',RAND()),";
-			sql += "`body` = CONCAT('내용 ',RAND());";
-
+			String sql = "SELECT *";
+			sql += " FROM article";
+			sql += " ORDER BY id DESC;"; // id 값이 큰 것부터 조회되도록
+			
 			System.out.println(sql);
 
 			pstmt = conn.prepareStatement(sql);
 
-			int affectedRow = pstmt.executeUpdate(); // 영향 받는 row의 개수를 나타냄
-
-			System.out.println("affectedRow : " + affectedRow);
+			rs = pstmt.executeQuery(sql);
+			
+			while(rs.next()) { // rs.next() 다음 꺼 있으면 true, 없으면 false
+				int id = rs.getInt("id");
+				String regDate = rs.getString("regDate");
+				String updateDate = rs.getString("updateDate");
+				String title = rs.getString("title");
+				String body = rs.getString("body");
+				
+				articles.add(new Article(id, regDate, updateDate, title, body));
+			}
 
 		} catch (ClassNotFoundException e) {
 			System.out.println("드라이버 로딩 실패");
 		} catch (SQLException e) {
 			System.out.println("에러 : " + e);
 		} finally {
-			try {
-				if (conn != null && !conn.isClosed()) {
-					conn.close();
+			try { // 꺼줄 때는 역순으로
+				if (rs != null && !rs.isClosed()) {
+					rs.close();
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -46,6 +60,13 @@ public class JDBCInsertTest {
 			try {
 				if (pstmt != null && !pstmt.isClosed()) {
 					pstmt.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				if (conn != null && !conn.isClosed()) {
+					conn.close();
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
