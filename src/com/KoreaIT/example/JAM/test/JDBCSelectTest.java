@@ -35,15 +35,15 @@ public class JDBCSelectTest {
 
 			rs = pstmt.executeQuery(sql);
 			
-//			while(rs.next()) { // rs.next() 다음 꺼 있으면 true, 없으면 false
-//				int id = rs.getInt("id");
-//				String regDate = rs.getString("regDate");
-//				String updateDate = rs.getString("updateDate");
-//				String title = rs.getString("title");
-//				String body = rs.getString("body");
-//				
-//				articles.add(new Article(id, regDate, updateDate, title, body));
-//			} // Date String 부분 때문에 에러 나서 일단 주석처리해줌
+			while(rs.next()) { // rs.next() 다음 꺼 있으면 true, 없으면 false
+				int id = rs.getInt("id");
+				String regDate = rs.getString("regDate");
+				String updateDate = rs.getString("updateDate");
+				String title = rs.getString("title");
+				String body = rs.getString("body");
+				
+				articles.add(new Article(id, regDate, updateDate, title, body));
+			}
 
 		} catch (ClassNotFoundException e) {
 			System.out.println("드라이버 로딩 실패");
