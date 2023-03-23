@@ -204,32 +204,31 @@ public class App {
 			String name = null;
 			
 			System.out.println("==회원 가입==");
-			
-			
-			SecSql sql = null;
-			int duplication = -1;
-			
+					
+			SecSql sql = null;			
 			
 			while (true) {
 				System.out.print("아이디: ");
 				loginId = sc.nextLine().trim();
-				sql = new SecSql();
-				
+								
 				if (loginId.length() == 0) {
 					System.out.println("아이디를 입력해주세요.");
 					continue;
 				}
 				
+				sql = new SecSql();
 				
-				sql.append("SELECT COUNT(*)");
-				sql.append("FROM member");
-				sql.append("WHERE loginId = ?;", loginId);
-				duplication = DBUtil.selectRowIntValue(conn, sql);
+				sql.append("SELECT COUNT(*) > 0");
+				sql.append("FROM `member`");
+				sql.append("WHERE loginId = ?", loginId);
 				
-				if (duplication == 1) {
-					System.out.println("중복 아이디가 존재합니다.");
+				boolean isLoginIdDup = DBUtil.selectRowBooleanValue(conn, sql);
+				
+				if (isLoginIdDup) {
+					System.out.println(loginId + "는 이미 사용중인 아이디입니다.");
 					continue;
 				}
+				
 				break;
 			}
 			
