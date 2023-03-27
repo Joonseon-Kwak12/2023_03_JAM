@@ -137,8 +137,22 @@ public class MemberController extends Controller{
 			}
 			
 			System.out.println(member.name + "회원님, 환영합니다.");
+			
+			Container.session.loginedMember = member;
+			Container.session.loginedMemberId = member.id;
+			
 			break;
 		}
+	}
+	//
+	//
+	public void showProfile(String cmd) {
+		if (Container.session.loginedMemberId == -1) {
+			System.out.println("로그인 상태가 아닙니다.");
+		} else {
+			System.out.println(Container.session.loginedMember);
+		}
+		
 	}
 
 
