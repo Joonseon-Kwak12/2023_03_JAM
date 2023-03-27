@@ -1,7 +1,6 @@
 package com.KoreaIT.example.JAM.service;
 
 import java.util.List;
-import java.util.Map;
 
 import com.KoreaIT.example.JAM.container.Container;
 import com.KoreaIT.example.JAM.dao.ArticleDao;
@@ -19,7 +18,7 @@ public class ArticleService {
 		return articleDao.doWrite(memberId, title, body);
 	}
 	
-	public Map<String, Object> getArticleById(int id) {
+	public Article getArticleById(int id) {
 		return articleDao.getArticleById(id);
 	}
 	

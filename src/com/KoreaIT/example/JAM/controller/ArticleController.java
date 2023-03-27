@@ -56,14 +56,12 @@ public class ArticleController extends Controller {
 		System.out.println("==게시물 상세보기==");
 		articleService.increseHit(id);
 		
-		Map<String, Object> articleMap = articleService.getArticleById(id);
+		Article article = articleService.getArticleById(id);
 				
-		if (articleMap.isEmpty()) {
+		if (article == null) {
 			System.out.println(id + "번 글은 존재하지 않습니다."); // 상세보기에서는 이미 SELECT 하는 곳이 있으므로 ?번 게시물 존재하는지 길게 블럭 만들 필요가 없다.
 			return;
 		}
-		Article article = new Article(articleMap);
-
 		System.out.println("글번호: " + article.id);
 		System.out.println("작성일: " + article.regDate);
 		System.out.println("수정일: " + article.updateDate);
@@ -81,10 +79,15 @@ public class ArticleController extends Controller {
 		
 		int id = Integer.parseInt(cmd.split(" ")[2]);
 		
-		int articlesCount = articleService.getArticlesCount(id);
+		Article article = articleService.getArticleById(id); 
 		
-		if (articlesCount == 0) {
+		if (article == null) {
 			System.out.println(id + "번 글은 존재하지 않습니다.");
+			return;
+		}
+		
+		if (article.memberId != Container.session.loginedMemberId) {
+			System.out.println("게시글에 대한 권한이 없습니다.");
 			return;
 		}
 		
@@ -109,10 +112,15 @@ public class ArticleController extends Controller {
 		System.out.println("==게시물 삭제==");
 		int id = Integer.parseInt(cmd.split(" ")[2]);
 		
-		int articlesCount = articleService.getArticlesCount(id); 
+		Article article = articleService.getArticleById(id); 
 		
-		if (articlesCount == 0) {
+		if (article == null) {
 			System.out.println(id + "번 글은 존재하지 않습니다.");
+			return;
+		}
+		
+		if (article.memberId != Container.session.loginedMemberId) {
+			System.out.println("게시글에 대한 권한이 없습니다.");
 			return;
 		}
 
