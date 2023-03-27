@@ -12,6 +12,7 @@ public class Article extends Object {
 	public int memberId;
 	public String title;
 	public String body;
+	public int hit;
 	// DB의 article 테이블의 컬럼에 없는 것
 	public String extra__writer;
 
@@ -30,6 +31,7 @@ public class Article extends Object {
 		this.memberId = (int) articleMap.get("memberId");
 		this.title = (String) articleMap.get("title");
 		this.body = (String) articleMap.get("body");
+		this.hit = (int) articleMap.get("hit");
 		
 		if (articleMap.get("extra__writer") != null) {
 			this.extra__writer = (String) articleMap.get("extra__writer");
