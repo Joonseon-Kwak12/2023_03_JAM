@@ -10,7 +10,15 @@ public class MemberController extends Controller{
 	public MemberController () {
 		memberService = Container.memberService;
 	}
+	//
+	//
+	//
 	public void doJoin(String cmd) {
+		if (Container.session.isLogined()) {
+			System.out.println("로그아웃 후 이용해주세요");
+			return;
+		}
+		
 		String loginId = null;
 		String loginPw = null;
 		String loginPwConfirm = null;
@@ -86,6 +94,11 @@ public class MemberController extends Controller{
 	// MemberDao까지 까보면 DB에 바로 저장하는 형태로 되어있어서 join까지는 굳이 dto, Member 객체가 필요 없었음 
 	//
 	public void login(String cmd) {
+		if (Container.session.isLogined()) {
+			System.out.println("로그아웃 후 이용해주세요");
+			return;
+		}
+		
 		String loginId = null;
 		String loginPw = null;
 		
@@ -138,22 +151,32 @@ public class MemberController extends Controller{
 			
 			System.out.println(member.name + "회원님, 환영합니다.");
 			
-			Container.session.loginedMember = member;
-			Container.session.loginedMemberId = member.id;
+//			Container.session.loginedMember = member;
+//			Container.session.loginedMemberId = member.id;
+			Container.session.login(member);
 			
 			break;
 		}
 	}
 	//
 	//
+	public void logout(String cmd) {
+		if (Container.session.isLogined() == false) {
+			System.out.println("로그인 후 이용해주세요.");
+			return;
+		} else {
+			Container.session.logout();
+		}
+	}
+	//
+	//
 	public void showProfile(String cmd) {
-		if (Container.session.loginedMemberId == -1) {
+		if (Container.session.isLogined() == false) {
 			System.out.println("로그인 상태가 아닙니다.");
 		} else {
 			System.out.println(Container.session.loginedMember);
 		}
-		
 	}
-
-
+	//
+	//
 }
