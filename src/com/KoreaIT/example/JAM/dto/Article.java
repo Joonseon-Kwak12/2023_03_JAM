@@ -1,4 +1,4 @@
-package com.KoreaIT.example.JAM;
+package com.KoreaIT.example.JAM.dto;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -17,7 +17,7 @@ public class Article extends Object {
 		this.body = body;
 	}
 
-	public Article(Map<String, Object> articleMap) {
+	public Article(Map<String, Object> articleMap) { // DB에서 정보를 가져올 때 article 객체로 바꿔줌
 		this.id = (int) articleMap.get("id");
 		this.regDate = ((LocalDateTime) articleMap.get("regDate"))
 				.format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분 ss초"));

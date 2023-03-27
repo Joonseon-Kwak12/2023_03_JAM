@@ -74,6 +74,8 @@ public class App {
 			articleController.doDelete(cmd);
 		} else if (cmd.equals("member join")) {
 			memberController.doJoin(cmd);
+		} else if (cmd.equals("member login")) { 
+			memberController.login(cmd);
 		} else {
 			System.out.println("해당 명령어는 존재하지 않습니다.");
 		}

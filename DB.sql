@@ -39,18 +39,22 @@ SELECT * FROM article;
 INSERT INTO `member`
 SET regDate = NOW(),
 updateDate = NOW(),
-loginId = CONCAT('TestId ',RAND()),
-loginPw = CONCAT('TestPw ',RAND());
-`name` = CONCAT('TestName ',RAND());
-
-INSERT INTO `member`
-SET regDate = NOW(),
-updateDate = NOW(),
-loginId = 'Test1',
-loginPw = 'Test1',
-`name` = 'TestName';
+loginId = 'test1',
+loginPw = 'test1',
+`name` = 'testName';
 
 ##
 DESC `member`;
 
+###
 SELECT * FROM `member`;
+
+SELECT COUNT(*) >= 1
+FROM article
+WHERE id = 1;
+
+SELECT COUNT(*) > 0
+FROM `member`
+WHERE loginId = 'test2';
+
+INSERT INTO article SET regDate = NOW() , updateDate = NOW() , title = 'aedsfg' , `body = 'cvbnawter';
